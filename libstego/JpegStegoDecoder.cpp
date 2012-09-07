@@ -106,10 +106,8 @@ void JpegStegoDecoder::StegoGetMessage(void *cinfo, JBLOCKROW *MCU_data)
 	{
 		int DCT_pos;
 
-	//	jpeg_component_info *compptr;
 		for (int blkn = 0; blkn < dcinfo->blocks_in_MCU; blkn++)
 		{
-		//	compptr = dcinfo->cur_comp_info[dcinfo->MCU_membership[blkn]];
 			if(pJSD->get_message)
 			{
 				DCT_pos = /*pJSD->*/selectPosition(MCU_data[blkn][0]);

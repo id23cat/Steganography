@@ -93,7 +93,7 @@ int LSBStegoEncoder::Encode(char *infile, char *outfile, bool pasteMes)
 	bmpSrc.WriteToFile(outfile);
 	
 	return ((size_t) capacityBit/8) - BEG_LEN - LEN_LEN - CRC_LEN - END_LEN; 
-};
+}
 
 size_t LSBStegoEncoder::Test(char *infile,bool wrtLog)
 {

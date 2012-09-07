@@ -556,7 +556,7 @@ void JpegStegoEncoder::StegoTestContainer2(void* cinfo, int workspace[64],int bl
 
 	try
 	{
-		int DCT_pos;
+		//int DCT_pos;
 		jpeg_component_info *compptr;
 
 		//int blkn;
@@ -757,7 +757,7 @@ int JpegStegoEncoder::startBmpToJpeg(char *inf, char *outf)
 	if(quality)
 	{
 		argc = 5;
-		argv[3]= "-quality";
+		argv[3]= (char*)"-quality";
 #ifdef _WIN32
 		itoa(quality,qua,10);
 #else

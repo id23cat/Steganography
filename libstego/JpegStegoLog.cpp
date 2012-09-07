@@ -154,7 +154,7 @@ int JpegStegoLog::writeCoef(int coef)
 	if(logfile==NULL)
 		return -1;
 	if(!bin)	fprintf(logfile,"%d\t", coef);
-	else{short co = (short)coef;		fwrite(&coef, sizeof(short), 1, logfile);}
+	else{short co = (short)coef;		fwrite(&co, sizeof(short), 1, logfile);}
 	return 0;
 }
 
@@ -170,7 +170,7 @@ int JpegStegoLog::endStr()
 {
 	if(logfile==NULL)
 		return -1;
-	if(!bin)		fprintf(logfile,"%\n");
+	if(!bin)		fprintf(logfile,"\n");
 	return 0;
 }
 
