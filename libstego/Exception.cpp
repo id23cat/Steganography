@@ -5,7 +5,7 @@
 #include "Exception.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
+
 
 Exception::Exception(void)
 {

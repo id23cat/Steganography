@@ -47,8 +47,8 @@
 							<tool id="cdt.managedbuild.tool.gnu.c.linker.exe.debug.1055268291" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.exe.debug"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug.1300101797" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.exe.debug">
 								<option id="gnu.cpp.link.option.paths.1181759082" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
-									<listOptionValue builtIn="false" value="/home/id23cat/workspace-CUDA/libstego/Debug"/>
-									<listOptionValue builtIn="false" value="/home/id23cat/workspace-CUDA/libjsteg/Debug"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/libjsteg/Debug}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/libstego/Debug}&quot;"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.207901146" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
 									<listOptionValue builtIn="false" value="stego"/>
