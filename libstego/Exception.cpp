@@ -5,18 +5,18 @@
 #include "Exception.h"
 #include <stdlib.h>
 #include <stdio.h>
-
+#include <sstream>
 
 Exception::Exception(void)
 {
 }
 
-Exception::Exception(char * msg)
+Exception::Exception(string msg)
 {
 #ifdef _WIN32
 	strcpy_s(message, 256, msg);
 #else
-	strcpy(message, msg);
+	message = msg;
 #endif
 }
 
@@ -24,53 +24,51 @@ Exception::~Exception(void)
 {
 }
 
-void Exception::setMessage(char * msg)
+void Exception::setMessage(string msg)
 {
 #ifdef _WIN32
 	strcpy_s(message, 256, msg);
 #else
-	strcpy(message, msg);
+	message = msg;
 #endif
 }
 
-char * Exception::getMessage(void)
-{
-	return message;
-}
 
-
-OutOfRangeException::OutOfRangeException(char *funName, size_t len, int indx)
+OutOfRangeException::OutOfRangeException(string funName, size_t len, int indx)
 //	:Exception(msg)
 {
-	char str[256];
-	sprintf(str,"OutOfRange exception in %s: array size %d, index %d", funName, len, indx);
-	setMessage(str);
+//	char str[256];
+//	sprintf(str,"OutOfRange exception in %s: array size %d, index %d", funName, len, indx);
+//	setMessage(str);
+	stringstream tmps;
+	tmps <<"OutOfRange exception in " <<funName << ": array size "<<len <<", index " <<indx;
+	message = tmps.str();
 	length = len;
 	index = indx;
 }
 
-EndOfMessageException::EndOfMessageException(char *msg, size_t mes_len)
+EndOfMessageException::EndOfMessageException(string msg, size_t mes_len)
 	:Exception(msg)
 {
 	messageLength = mes_len;
 }
 
-DamagedMessageException::DamagedMessageException(char *msg, BYTE *array, size_t len)
+DamagedMessageException::DamagedMessageException(string msg, BYTE *array, size_t len)
 	:Exception(msg)
 {
 	message_array = array;
 	length = len;
 }
 
-FileNotFoundException::FileNotFoundException(char *msg, char *f)
+FileNotFoundException::FileNotFoundException(string msg, string f)
 {
-	char str[256];
-	sprintf(str,"Could not open file %s: %s", f, msg);
-	setMessage(str);
+	stringstream tmps;
+	tmps <<"Could not open file " <<f <<": " <<msg;
+	message = tmps.str();
 #ifdef _WIN32
 	strcpy_s(file,256,f);
 #else
-	strcpy(file,f);
+	file = f;
 #endif
 
 }

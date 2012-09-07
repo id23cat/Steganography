@@ -1,6 +1,9 @@
 #if !defined(EXCEPTION_H)
 #define EXCEPTION_H
 #include <stdlib.h>
+#include <string>
+
+using namespace std;
 
 
 #define STR_LEN		256
@@ -25,13 +28,13 @@ class Exception
 {
 public:
 	Exception(void);
-	Exception(char * msg);
+	Exception(string msg);
 	~Exception(void);
 public:
-	void setMessage(char * msg);
-	char * getMessage(void);
-private:
-	char message[STR_LEN];
+	void setMessage(string msg);
+	string& getMessage(void) {return message;};
+protected:
+	string message;
 };
 
 class OutOfRangeException: public Exception
@@ -39,7 +42,7 @@ class OutOfRangeException: public Exception
 	size_t length;
 	int index;
 public:
-	OutOfRangeException(char *funName, size_t len, int indx);	//funName -- function in which happened exception
+	OutOfRangeException(string funName, size_t len, int indx);	//funName -- function in which happened exception
 																//len -- array length in counted blocks (usualy bytes)
 																//indx -- index whith which happened exception
 public:
@@ -53,7 +56,7 @@ class EndOfMessageException:public Exception
 {
 	size_t messageLength;
 public:
-	EndOfMessageException(char *msg, size_t mes_len);			//msg -- exception message
+	EndOfMessageException(string msg, size_t mes_len);			//msg -- exception message
 																//mes_len -- length of array in bytes
 	size_t GetMessageLength(){return messageLength;};			
 };
@@ -63,7 +66,7 @@ class DamagedMessageException:public Exception
 	BYTE *message_array;
 	size_t length;
 public:
-	DamagedMessageException(char *msg, BYTE *array, size_t len);//msg -- exception message
+	DamagedMessageException(string msg, BYTE *array, size_t len);//msg -- exception message
 																//array -- array which coused excepion
 																//len -- length of array in bytes
 	BYTE* GetArrayMessage(){return message_array;};
@@ -72,11 +75,11 @@ public:
 
 class FileNotFoundException:public Exception
 {
-	char file[256];
+	string file;
 public:
-	FileNotFoundException(char *msg, char *f);					//msg -- causing of exception
+	FileNotFoundException(string msg, string f);					//msg -- causing of exception
 																//f -- file name
-	char *GetFileName(){return file;};
+	string& GetFileName(){return file;};
 };
 
 #endif //!defined(EXCEPTION_H)
