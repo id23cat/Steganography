@@ -20,6 +20,8 @@ class JpegStegoAnalysis:public JpegStegoEncoder
 	FILE *fout;
 
 	void InitJpegStego(bool analyseMessage);
+
+	//empty method!:
 	static void StegoAnalyseContainer(void *cinfo, int *block,int blkn);	//callback function
 public:
 	JpegStegoAnalysis(void);

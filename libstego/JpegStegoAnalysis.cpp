@@ -30,9 +30,9 @@ void JpegStegoAnalysis::InitJpegStego(bool analyseMes)
 
 void JpegStegoAnalysis::StegoAnalyseContainer(void *cinfo, int *block,int blkn)	//callback function
 {
-	j_compress_ptr *ccinfop = static_cast<j_compress_ptr*>(cinfo);
-	j_compress_ptr ccinfo = *ccinfop;
-	JpegStegoAnalysis *pJSE = static_cast<JpegStegoAnalysis*>(ccinfo->stego.stegoObjPtr);
+//	j_compress_ptr *ccinfop = static_cast<j_compress_ptr*>(cinfo);
+//	j_compress_ptr ccinfo = *ccinfop;
+//	JpegStegoAnalysis *pJSE = static_cast<JpegStegoAnalysis*>(ccinfo->stego.stegoObjPtr);
 }
 
 void JpegStegoAnalysis::SetExcelFile(char* file)
