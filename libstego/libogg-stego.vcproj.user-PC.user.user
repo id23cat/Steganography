@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<VisualStudioUserFile
+	ProjectType="Visual C++"
+	Version="9,00"
+	ShowAllFiles="false"
+	>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			>
+			<DebugSettings
+				Command=""
+				WorkingDirectory=""
+				CommandArguments="-el .\Images\800x600\1.bmp .\Images\800x600\1.jpg"
+				Attach="false"
+				DebuggerType="3"
+				Remote="1"
+				RemoteMachine="USER-PC"
+				RemoteCommand=""
+				HttpUrl=""
+				PDBPath=""
+				SQLDebugging=""
+				Environment=""
+				EnvironmentMerge="true"
+				DebuggerFlavor="0"
+				MPIRunCommand=""
+				MPIRunArguments=""
+				MPIRunWorkingDirectory=""
+				ApplicationCommand=""
+				ApplicationArguments=""
+				ShimCommand=""
+				MPIAcceptMode=""
+				MPIAcceptFilter=""
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			>
+			<DebugSettings
+				Command="jpegtest.exe -ebkl 1.bmp 1.jpg 1 400 75 -l 00.log"
+				WorkingDirectory=""
+				CommandArguments=""
+				Attach="false"
+				DebuggerType="3"
+				Remote="1"
+				RemoteMachine="USER-PC"
+				RemoteCommand=""
+				HttpUrl=""
+				PDBPath=""
+				SQLDebugging=""
+				Environment=""
+				EnvironmentMerge="true"
+				DebuggerFlavor="0"
+				MPIRunCommand=""
+				MPIRunArguments=""
+				MPIRunWorkingDirectory=""
+				ApplicationCommand=""
+				ApplicationArguments=""
+				ShimCommand=""
+				MPIAcceptMode=""
+				MPIAcceptFilter=""
+			/>
+		</Configuration>
+	</Configurations>
+</VisualStudioUserFile>
