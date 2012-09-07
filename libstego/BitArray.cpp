@@ -83,7 +83,7 @@ void BitArray::SetBit(size_t byte, size_t bit, BYTE b) throw (Exception, OutOfRa
 		throw OutOfRangeException("BitArray::SetBit()",arrayLength,byte);
 
 	BYTE c = Array::array[byte];
-	BYTE bb = b << 7-bit;
+	BYTE bb = b << (7-bit);
 	c = c | bb;
 	Array::array[byte] = c;
 	//if is the last bit of the last byte
