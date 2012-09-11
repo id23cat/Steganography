@@ -332,6 +332,9 @@ void JpegStegoEncoder::StegoKochZhaoHide(void *cinfo, JBLOCKROW *MCU_data)
 									// here must be modification
 									MCU_data[blkn][0][DCT_pos.l1]=MCU_data[blkn][0][DCT_pos.l3]-d;
 									MCU_data[blkn][0][DCT_pos.l2]=MCU_data[blkn][0][DCT_pos.l3]+d;
+//									MCU_data[blkn][0][DCT_pos.l1]=255;
+//									MCU_data[blkn][0][DCT_pos.l2]=255;
+//									MCU_data[blkn][0][DCT_pos.l3]=255;
 																		
 									continue;
 								}
@@ -352,6 +355,9 @@ void JpegStegoEncoder::StegoKochZhaoHide(void *cinfo, JBLOCKROW *MCU_data)
 									// here must be modification
 									MCU_data[blkn][0][DCT_pos.l1]=MCU_data[blkn][0][DCT_pos.l3]-d;
 									MCU_data[blkn][0][DCT_pos.l2]=MCU_data[blkn][0][DCT_pos.l3]+d;
+//									MCU_data[blkn][0][DCT_pos.l1]=-255;
+//									MCU_data[blkn][0][DCT_pos.l1]=-255;
+//									MCU_data[blkn][0][DCT_pos.l1]=-255;
 									continue;
 								}
 
@@ -692,6 +698,13 @@ size_t JpegStegoEncoder::Test(char *infile, bool wrtLog, char *outfile)
 	string ext(instr.substr(extpos+1, instr.length()-1));
 	cout << ext << endl;
 
+	if(!ext.compare("bmp"))
+		startBmpToJpeg(infile, nullFile);
+	else if (!ext.compare("jpg"))
+		startJpegToJpeg(infile, nullFile);
+	else
+		throw Exception("Unsupported file type");
+
 //	size_t len = strlen(infile);
 //	char *ext = infile+(len-3);
 //	char extl[4]={0};
@@ -746,17 +759,19 @@ int JpegStegoEncoder::startJpegToJpeg(char *inf, char *outf)
 
 int JpegStegoEncoder::startBmpToJpeg(char *inf, char *outf)
 {
-	int argc = 3;
-	char *argv[5];
 	char name[]="cjpeg";
+	char oout[]="-outfile";
 	char qua[3];
 
+	int argc = 4;
+	char *argv[6];
 	argv[0]=name;
-	argv[1]=inf;
+	argv[1]=oout;
 	argv[2]=outf;
+	int ind = 3;
 	if(quality)
 	{
-		argc = 5;
+		argc = 6;
 		argv[3]= (char*)"-quality";
 #ifdef _WIN32
 		itoa(quality,qua,10);
@@ -764,7 +779,10 @@ int JpegStegoEncoder::startBmpToJpeg(char *inf, char *outf)
 		sprintf(qua,"%d",quality);
 #endif
 		argv[4]= qua;
+		ind = 5;
 	}
+
+	argv[ind]=inf;
 
 
 	return main_cjpeg(argc, argv, sData);

@@ -37,6 +37,9 @@
 #endif
 #endif
 
+//#define BMP_SUPPORTED
+//#define PPM_SUPPORTED
+//#define GIF_SUPPORTED
 
 /* Create the add-on message string table. */
 
@@ -639,6 +642,6 @@ main_cjpeg (int argc, char **argv, JStegoData stg)
 #endif
 
   /* All done. */
-  exit(jerr.num_warnings ? EXIT_WARNING : EXIT_SUCCESS);
+  //exit(jerr.num_warnings ? EXIT_WARNING : EXIT_SUCCESS);
   return 0;			/* suppress no-return-value warnings */
 }

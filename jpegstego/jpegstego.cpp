@@ -101,8 +101,8 @@ int main(int argc, char* argv[])
 			}
 
 			jse.blog = args.log;
-			//cout << "Encoding..."<<endl;
-			cout << args.in <<" to "<<args.out;
+			cout << "Encoding..."<<endl;
+			cout << args.in <<" to "<<args.out <<endl;
 						
 			if(args.mes)
 			{
@@ -141,7 +141,7 @@ int main(int argc, char* argv[])
 		}else if(args.tst)
 		{
 			JpegStegoEncoder jse;
-			//cout << "Testing..."<<endl;
+			cout << "Testing..."<<endl;
 			//cout << argv[2]<<endl;
 			jse.koch = args.koch;
 			jse.blog = args.log;
