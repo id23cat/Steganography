@@ -120,7 +120,8 @@ int main(int argc, char* argv[])
 			//cout << "\nDone\n";
 			if(args.dec)
 			{
-				JpegStegoDecoder jsd;				
+				JpegStegoDecoder jsd;
+
 				cout << "Decoding..."<<endl;
 				cout << "from "<< args.in<<" to "<<args.mes<<endl;
 				jsd.Decode(args.in);
@@ -132,10 +133,9 @@ int main(int argc, char* argv[])
 		{
 			JpegStegoDecoder jsd;
 			cout << "Decoding..."<<endl;
-			cout << "from "<< argv[3]<<" to "<<argv[3]<<endl;
-			jsd.Decode(argv[2]);
-			//jsd.Decode(argv[4]);
-			jsd.SaveMessageToFile(argv[3]);
+			cout << "from "<< args.in<<" to "<<args.mes <<endl;
+			jsd.Decode(args.in);
+			jsd.SaveMessageToFile(args.mes);
 			cout << "\ndone";		
 		//}else if((args & TST) != 0)		//then testing
 		}else if(args.tst)
