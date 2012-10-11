@@ -121,7 +121,6 @@ int main(int argc, char* argv[])
 			if(args.dec)
 			{
 				JpegStegoDecoder jsd;
-
 				cout << "Decoding..."<<endl;
 				cout << "from "<< args.in<<" to "<<args.mes<<endl;
 				jsd.Decode(args.in);
@@ -132,6 +131,8 @@ int main(int argc, char* argv[])
 		}else if(args.dec)	//then decoding
 		{
 			JpegStegoDecoder jsd;
+			jsd.koch = args.koch;
+			jsd.blog = args.log;
 			cout << "Decoding..."<<endl;
 			cout << "from "<< args.in<<" to "<<args.mes <<endl;
 			jsd.Decode(args.in);
