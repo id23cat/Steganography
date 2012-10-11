@@ -28,19 +28,18 @@ class JpegStegoEncoder :
 	//!OutOfRangeException = true;
 protected:
 	
-	
-	JpegStegoLog *slog1;
+	JpegStegoLog *slog1;	// logger
 	JpegStegoLog *slog2;
-	JStegoData sData;
+
+	JStegoData sData;		//contain data and callback functions
 	
-	BYTE perc;				//percent parameter
-	BYTE Pi;					//������� ���������
-	
-	
-	
+	BYTE perc;				//percent value
+	BYTE Pi;				//percent index
+
 	/*size_t width;
 	size_t height;
 	BYTE *rgb;*/
+
 //private:
 	virtual void InitJpegStego(bool encodeMessage);
 	void InitPercent();

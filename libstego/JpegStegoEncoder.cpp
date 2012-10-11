@@ -6,6 +6,8 @@
 #include <iostream>
 using namespace std;
 
+#define MCU_DATA(blkn, idx) MCU_data[blkn][0][idx]
+
 
 JpegStegoEncoder::JpegStegoEncoder(void)
 {
@@ -66,14 +68,16 @@ void JpegStegoEncoder::InitPercent()
 
 void JpegStegoEncoder::InitJpegStego(bool encMes)
 {	
-	InitPercent();	
-	if(encMes /*&& paste_message*/)
+	InitPercent();
+	srand(1);
+	paste_message = encMes;
+	if(paste_message)
 	{							
 		sData.CallbackFunction = &StegoHideMessage;
 		if(koch)
 			sData.CallbackFunction = &StegoKochZhaoHide;
 		sData.isStego = 1;
-	}else if(!encMes)													//
+	}else if(!paste_message)													//
 	{
 		sData.CallbackFunction = &StegoTestContainer;
 		if(koch)
@@ -326,12 +330,22 @@ void JpegStegoEncoder::StegoKochZhaoHide(void *cinfo, JBLOCKROW *MCU_data)
 							
 							if(bit==1)
 							{
-								if(min(MCU_data[blkn][0][DCT_pos.l1],MCU_data[blkn][0][DCT_pos.l2])+D
-									< MCU_data[blkn][0][DCT_pos.l3])
+								if(min(MCU_DATA(blkn, DCT_pos.l1),MCU_DATA(blkn, DCT_pos.l2))+D
+									< MCU_DATA(blkn, DCT_pos.l3))	// check_write
 								{
-									// here must be modification
-									MCU_data[blkn][0][DCT_pos.l1]=MCU_data[blkn][0][DCT_pos.l3]-d;
-									MCU_data[blkn][0][DCT_pos.l2]=MCU_data[blkn][0][DCT_pos.l3]+d;
+									// invalid block
+//									 l1=L, l2=H, l3=M
+									MCU_DATA(blkn, DCT_pos.l1)=MCU_DATA(blkn, DCT_pos.l3)-d;
+									MCU_DATA(blkn, DCT_pos.l2)=MCU_DATA(blkn, DCT_pos.l3)+d;
+
+//									// alternative invalidation
+//									if(min(MCU_DATA(blkn, DCT_pos.l1), MCU_DATA(blkn, DCT_pos.l2)) ==
+//											MCU_DATA(blkn, DCT_pos.l1))
+//										MCU_DATA(blkn, DCT_pos.l2) = MCU_DATA(blkn, DCT_pos.l3) + d;
+//									else if(min(MCU_DATA(blkn, DCT_pos.l1), MCU_DATA(blkn, DCT_pos.l2)) ==
+//											MCU_DATA(blkn, DCT_pos.l2))
+//										MCU_DATA(blkn, DCT_pos.l1) = MCU_DATA(blkn, DCT_pos.l3) + d;
+
 //									MCU_data[blkn][0][DCT_pos.l1]=255;
 //									MCU_data[blkn][0][DCT_pos.l2]=255;
 //									MCU_data[blkn][0][DCT_pos.l3]=255;
@@ -339,9 +353,10 @@ void JpegStegoEncoder::StegoKochZhaoHide(void *cinfo, JBLOCKROW *MCU_data)
 									continue;
 								}
 								
-								MCU_data[blkn][0][DCT_pos.l3]-=d-d3;
-								MCU_data[blkn][0][DCT_pos.l1]+=d/*+1*/;						
-								MCU_data[blkn][0][DCT_pos.l2]+=d/*+1*/;
+								// write bit
+								MCU_DATA(blkn, DCT_pos.l3)-=d-d3;
+								MCU_DATA(blkn, DCT_pos.l1)+=d/*+1*/;
+								MCU_DATA(blkn, DCT_pos.l2)+=d/*+1*/;
 								///*********************/
 								//MCU_data[blkn][0][0]=5*(pJSE->mit.byteIndex*8+pJSE->mit.bitIndex);								
 								///*********************/
@@ -349,21 +364,32 @@ void JpegStegoEncoder::StegoKochZhaoHide(void *cinfo, JBLOCKROW *MCU_data)
 								break;
 							}else
 							{
-								if(max(MCU_data[blkn][0][DCT_pos.l1],MCU_data[blkn][0][DCT_pos.l2]) > 
-									MCU_data[blkn][0][DCT_pos.l3]+D/*-1*/)
+								if(max(MCU_DATA(blkn, DCT_pos.l1),MCU_DATA(blkn, DCT_pos.l2)) >
+									MCU_DATA(blkn, DCT_pos.l3)+D/*-1*/)
 								{
-									// here must be modification
-									MCU_data[blkn][0][DCT_pos.l1]=MCU_data[blkn][0][DCT_pos.l3]-d;
-									MCU_data[blkn][0][DCT_pos.l2]=MCU_data[blkn][0][DCT_pos.l3]+d;
+									// invalid block
+									// l1=L, l2=H, l3=M
+									MCU_DATA(blkn, DCT_pos.l1)=MCU_DATA(blkn, DCT_pos.l3)-d;
+									MCU_DATA(blkn, DCT_pos.l2)=MCU_DATA(blkn, DCT_pos.l3)+d;
+
+//									// alternative invalidation
+//									if (max(MCU_DATA(blkn, DCT_pos.l1),MCU_DATA(blkn, DCT_pos.l2))==
+//											MCU_DATA(blkn, DCT_pos.l1))
+//										MCU_DATA(blkn, DCT_pos.l2) = MCU_DATA(blkn, DCT_pos.l3) - d;
+//									else if (max(MCU_DATA(blkn, DCT_pos.l1),MCU_DATA(blkn, DCT_pos.l2))==
+//											MCU_DATA(blkn, DCT_pos.l2))
+//										MCU_DATA(blkn, DCT_pos.l1) = MCU_DATA(blkn, DCT_pos.l3) - d;
+
 //									MCU_data[blkn][0][DCT_pos.l1]=-255;
 //									MCU_data[blkn][0][DCT_pos.l1]=-255;
 //									MCU_data[blkn][0][DCT_pos.l1]=-255;
 									continue;
 								}
 
-								MCU_data[blkn][0][DCT_pos.l3]+=d+d3;
-								MCU_data[blkn][0][DCT_pos.l1]-=d;
-								MCU_data[blkn][0][DCT_pos.l2]-=d;
+								// write bit
+								MCU_DATA(blkn, DCT_pos.l3)+=d+d3;
+								MCU_DATA(blkn, DCT_pos.l1)-=d;
+								MCU_DATA(blkn, DCT_pos.l2)-=d;
 								///*********************/
 								//MCU_data[blkn][0][0]=5*(pJSE->mit.byteIndex*8+pJSE->mit.bitIndex);								
 								///*********************/

@@ -2,6 +2,7 @@
 #if !defined(JPEGSTEGODECODER_H)
 #define JPEGSTEGODECODER_H
 #include "StegoDecoder.h"
+#include "JpegStegoLog.h"
 //#include "constants.h"
 #include "Methods.h"
 extern "C" {	
@@ -20,7 +21,7 @@ extern "C" {
 class JpegStegoDecoder : public StegoDecoder
 	//!OutOfRangeException = false;
 {
-	JStegoData sData;
+	JStegoData sData;		//contain data and callback functions
 	
 private:
 	void InitJpegStego(bool decodeMessage);
@@ -30,10 +31,24 @@ private:
 public:
 	//static void StegoGetMessage(j_decompress_ptr cinfo, JBLOCKROW *MCU_data);	//callback function	
 	static void StegoGetMessage(void *cinfo, JBLOCKROW *MCU_data);	//callback function
+	static void StegoKochZhaoGet(void *cinfo, JBLOCKROW *MCU_data);	//callback function
 public:
 	JpegStegoDecoder(void);
 	~JpegStegoDecoder(void);
 
 	int Decode(char *infile, char *outfile=NULL, bool getMes=true);
+	size_t Test(char *infile, bool wrtLog=false, char *outfile=NULL);
+	void LOG(bool log, bool bin=false){blog = log; binary = bin;};
+	void Koch(bool k=false){koch = k;};
+public:
+	bool blog; //write text log
+	char *logfile; // file name
+	bool binary; //write binary log
+	bool koch; //read with Koch-Zhao algorithm
+//	bool random;			// read randomly
+//	int percent;			//percent capacity
+	int work_component;		//(All,Y,Cb,Cr)
+
+	JpegStegoLog *slog;	// logger
 };
 #endif //JPEGSTEGODECODER_H

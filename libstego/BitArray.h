@@ -35,6 +35,7 @@ public:
 																				//par -> pArray
 		~BitArrayIterator();
 		virtual void SetBitArray(BitArray *bar) throw(OutOfRangeException);	//sets pointer to object
+		virtual size_t GetCurIdx() {return byteIndex*8+bitIndex;};						// return current index
 		virtual BitArrayIterator &operator[](size_t index)  throw(OutOfRangeException);	//index by bits in BitArray
 		virtual BitArrayIterator &operator=(BYTE bit) throw(Exception, OutOfRangeException); //sets bit to current position in BitArray object
 		virtual BitArrayIterator &operator=(BitArrayIterator &it);		//copy constructor
