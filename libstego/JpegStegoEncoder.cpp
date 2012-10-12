@@ -8,6 +8,7 @@ using namespace std;
 
 #define MCU_DATA(blkn, idx) MCU_data[blkn][0][idx]
 
+static int ie;
 
 JpegStegoEncoder::JpegStegoEncoder(void)
 {
@@ -321,17 +322,26 @@ void JpegStegoEncoder::StegoKochZhaoHide(void *cinfo, JBLOCKROW *MCU_data)
 					if(pJSE->paste_message && pJSE->perc>=pJSE->Pi)
 					{				
 						bit = pJSE->mit;
+//#ifdef DEBUG
+//						if(pJSE->mit.GetCurIdx()==13)
+//							cerr << 13 <<endl;
+//#endif
 						for(int i=0;i<KOCH_MAX; i++)
 						{
 							ii = (((double) rand() / 
 								 (double) RAND_MAX) * (KOCH_MAX-1) + 0);
 
 							DCT_pos = /*pJSE->*/KochZhaoPosition(ii);
+#ifdef DEBUG
+							cout <<ie++ <<": ii=" <<ii
+									<<", bit=" <<(int)bit;
+#endif
 							
 							if(bit==1)
 							{
+
 								if(min(MCU_DATA(blkn, DCT_pos.l1),MCU_DATA(blkn, DCT_pos.l2))+D
-									< MCU_DATA(blkn, DCT_pos.l3))	// check_write
+									<= MCU_DATA(blkn, DCT_pos.l3))	// check_write
 								{
 									// invalid block
 //									 l1=L, l2=H, l3=M
@@ -350,7 +360,15 @@ void JpegStegoEncoder::StegoKochZhaoHide(void *cinfo, JBLOCKROW *MCU_data)
 //									MCU_data[blkn][0][DCT_pos.l2]=255;
 //									MCU_data[blkn][0][DCT_pos.l3]=255;
 																		
-									continue;
+									//continue;
+#ifdef DEBUG
+									cout
+										<<", l1=" <<MCU_DATA(blkn, DCT_pos.l1)
+										<<", l2=" <<MCU_DATA(blkn, DCT_pos.l2)
+										<<", l3=" <<MCU_DATA(blkn, DCT_pos.l3)
+										<<" -- break" <<endl;
+#endif
+									break;
 								}
 								
 								// write bit
@@ -361,10 +379,17 @@ void JpegStegoEncoder::StegoKochZhaoHide(void *cinfo, JBLOCKROW *MCU_data)
 								//MCU_data[blkn][0][0]=5*(pJSE->mit.byteIndex*8+pJSE->mit.bitIndex);								
 								///*********************/
 								pJSE->mit++;
+#ifdef DEBUG
+							cout
+								<<", l1=" <<MCU_DATA(blkn, DCT_pos.l1)
+								<<", l2=" <<MCU_DATA(blkn, DCT_pos.l2)
+								<<", l3=" <<MCU_DATA(blkn, DCT_pos.l3)
+								<<" -- embedded" <<endl;
+#endif
 								break;
 							}else
 							{
-								if(max(MCU_DATA(blkn, DCT_pos.l1),MCU_DATA(blkn, DCT_pos.l2)) >
+								if(max(MCU_DATA(blkn, DCT_pos.l1),MCU_DATA(blkn, DCT_pos.l2)) >=
 									MCU_DATA(blkn, DCT_pos.l3)+D/*-1*/)
 								{
 									// invalid block
@@ -383,7 +408,16 @@ void JpegStegoEncoder::StegoKochZhaoHide(void *cinfo, JBLOCKROW *MCU_data)
 //									MCU_data[blkn][0][DCT_pos.l1]=-255;
 //									MCU_data[blkn][0][DCT_pos.l1]=-255;
 //									MCU_data[blkn][0][DCT_pos.l1]=-255;
-									continue;
+
+									//continue;
+#ifdef DEBUG
+									cout
+										<<", l1=" <<MCU_DATA(blkn, DCT_pos.l1)
+										<<", l2=" <<MCU_DATA(blkn, DCT_pos.l2)
+										<<", l3=" <<MCU_DATA(blkn, DCT_pos.l3)
+										<<" -- break" <<endl;
+#endif
+									break;
 								}
 
 								// write bit
@@ -394,6 +428,13 @@ void JpegStegoEncoder::StegoKochZhaoHide(void *cinfo, JBLOCKROW *MCU_data)
 								//MCU_data[blkn][0][0]=5*(pJSE->mit.byteIndex*8+pJSE->mit.bitIndex);								
 								///*********************/
 								pJSE->mit++;
+#ifdef DEBUG
+								cout
+									<<", l1=" <<MCU_DATA(blkn, DCT_pos.l1)
+									<<", l2=" <<MCU_DATA(blkn, DCT_pos.l2)
+									<<", l3=" <<MCU_DATA(blkn, DCT_pos.l3)
+									<<" -- embedded" <<endl;
+#endif
 								break;
 							}						
 							

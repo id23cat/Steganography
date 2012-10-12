@@ -3,8 +3,7 @@
 	<name>libstego</name>
 	<comment></comment>
 	<projects>
-		<project>libbmp</project>
-		<project>libjsteg</project>
+		<project>jpegstego</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
