@@ -1,5 +1,7 @@
 #ifdef _WIN32
 #include "stdafx.h"
+#else
+#include <errno.h>
 #endif
 
 #include "StegoDecoder.h"
@@ -33,7 +35,7 @@ size_t StegoDecoder::GetMessageP(BYTE *ptr)
 
 void StegoDecoder::SaveMessageToFile(char *mesFile) /*throw(...)*/
 {
-	FILE *instream;
+	FILE *outstream;
 #ifdef _WIN32
 	if( fopen_s( &instream, mesFile, "wb" ) != 0 )
 	{
@@ -42,10 +44,10 @@ void StegoDecoder::SaveMessageToFile(char *mesFile) /*throw(...)*/
 		throw Exception(str);		
 	};
 #else
-	if( (instream=fopen(mesFile, "wb" )) != 0 )
+	if( (outstream=fopen(mesFile, "wb" )) == NULL )
 	{
 		char str[256]={0};
-		sprintf(str,"Can not open file %s\n",mesFile);
+		sprintf(str,"Can not open file %s: %s\n",mesFile, strerror(errno));
 		throw Exception(str);		
 	};
 #endif
@@ -54,8 +56,8 @@ void StegoDecoder::SaveMessageToFile(char *mesFile) /*throw(...)*/
 	//len = GetMessageP(mes);
 
 	mes = mesArray.GetMessage(len);
-	len = fwrite(mes, sizeof(BYTE), len, instream);
-	fclose(instream);	
+	len = fwrite(mes, sizeof(BYTE), len, outstream);
+	fclose(outstream);
 	//delete mes;
 }
 
