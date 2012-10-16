@@ -147,7 +147,7 @@ void JpegStegoDecoder::StegoKochZhaoGet(void *cinfo, JBLOCKROW *MCU_data)
 
 							// get position from 'Possible location sets' table
 							DCT_pos = KochZhaoPosition(ii);
-#ifdef DEBUG
+#ifdef DEBUG_KZ_RD
 							cout <<id++ <<": ii=" <<ii
 									<<", l1=" <<MCU_DATA(blkn, DCT_pos.l1)
 									<<", l2=" <<MCU_DATA(blkn, DCT_pos.l2)
@@ -167,7 +167,7 @@ void JpegStegoDecoder::StegoKochZhaoGet(void *cinfo, JBLOCKROW *MCU_data)
 									(MCU_DATA(blkn, DCT_pos.l1) == MCU_DATA(blkn, DCT_pos.l3)&&
 											MCU_DATA(blkn, DCT_pos.l2) == MCU_DATA(blkn, DCT_pos.l3))
 									) {//continue;		// invalid combination
-#ifdef DEBUG
+#ifdef DEBUG_KZ_RD
 									cout <<" -- break" <<endl;
 #endif
 									break;
@@ -177,7 +177,7 @@ void JpegStegoDecoder::StegoKochZhaoGet(void *cinfo, JBLOCKROW *MCU_data)
 									MCU_DATA(blkn, DCT_pos.l2) > MCU_DATA(blkn, DCT_pos.l3))/*+D*/ {
 								pJSD->mit = 1;
 								pJSD->mit++;
-#ifdef DEBUG
+#ifdef DEBUG_KZ_RD
 								cout <<" bit=" <<1 <<endl;
 #endif
 								break;
@@ -185,12 +185,12 @@ void JpegStegoDecoder::StegoKochZhaoGet(void *cinfo, JBLOCKROW *MCU_data)
 									MCU_DATA(blkn, DCT_pos.l2) < MCU_DATA(blkn, DCT_pos.l3)/*-D*/) {
 								pJSD->mit = 0;
 								pJSD->mit++;
-#ifdef DEBUG
+#ifdef DEBUG_KZ_RD
 								cout <<" bit=" <<0 <<endl;
 #endif
 								break;
 							} else{
-#ifdef DEBUG
+#ifdef DEBUG_KZ_RD
 								cerr <<"bit index: " <<pJSD->mit.GetCurIdx() <<endl;
 #endif
 								throw DamagedMessageException("Bit in KZ block has been damaged",0,0);
@@ -207,7 +207,9 @@ void JpegStegoDecoder::StegoKochZhaoGet(void *cinfo, JBLOCKROW *MCU_data)
 		}
 
 	} catch (EndOfMessageException exc) {
+#ifdef DEBUG
 		cerr << exc.getMessage() << endl;
+#endif
 		//pJSD->sData.isStego = 0;
 		dcinfo->stego.isStego = 0;
 		pJSD->get_message = false;

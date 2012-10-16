@@ -109,7 +109,7 @@ void StegoArray::SetBit(size_t byte, size_t bit, BYTE b)  throw(Exception,
 		if(!strncmp((char*)endf, endFlag, END_LEN))
 		{
 			//allocate(BEG_LEN);
-			throw EndOfMessageException("Getting finished!", messageLength);								// getting finished
+			throw EndOfMessageException("Receiving completed!", messageLength);								// getting finished
 		}
 		else
 			throw DamagedMessageException("End flag may be damaged",array + BEG_LEN + LEN_LEN,messageLength);

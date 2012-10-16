@@ -322,7 +322,7 @@ void JpegStegoEncoder::StegoKochZhaoHide(void *cinfo, JBLOCKROW *MCU_data)
 					if(pJSE->paste_message && pJSE->perc>=pJSE->Pi)
 					{				
 						bit = pJSE->mit;
-//#ifdef DEBUG
+//#ifdef DEBUG_KZ_WR
 //						if(pJSE->mit.GetCurIdx()==13)
 //							cerr << 13 <<endl;
 //#endif
@@ -332,7 +332,7 @@ void JpegStegoEncoder::StegoKochZhaoHide(void *cinfo, JBLOCKROW *MCU_data)
 								 (double) RAND_MAX) * (KOCH_MAX-1) + 0);
 
 							DCT_pos = /*pJSE->*/KochZhaoPosition(ii);
-#ifdef DEBUG
+#ifdef DEBUG_KZ_WR
 							cout <<ie++ <<": ii=" <<ii
 									<<", bit=" <<(int)bit;
 #endif
@@ -361,7 +361,7 @@ void JpegStegoEncoder::StegoKochZhaoHide(void *cinfo, JBLOCKROW *MCU_data)
 //									MCU_data[blkn][0][DCT_pos.l3]=255;
 																		
 									//continue;
-#ifdef DEBUG
+#ifdef DEBUG_KZ_WR
 									cout
 										<<", l1=" <<MCU_DATA(blkn, DCT_pos.l1)
 										<<", l2=" <<MCU_DATA(blkn, DCT_pos.l2)
@@ -379,7 +379,7 @@ void JpegStegoEncoder::StegoKochZhaoHide(void *cinfo, JBLOCKROW *MCU_data)
 								//MCU_data[blkn][0][0]=5*(pJSE->mit.byteIndex*8+pJSE->mit.bitIndex);								
 								///*********************/
 								pJSE->mit++;
-#ifdef DEBUG
+#ifdef DEBUG_KZ_WR
 							cout
 								<<", l1=" <<MCU_DATA(blkn, DCT_pos.l1)
 								<<", l2=" <<MCU_DATA(blkn, DCT_pos.l2)
@@ -410,7 +410,7 @@ void JpegStegoEncoder::StegoKochZhaoHide(void *cinfo, JBLOCKROW *MCU_data)
 //									MCU_data[blkn][0][DCT_pos.l1]=-255;
 
 									//continue;
-#ifdef DEBUG
+#ifdef DEBUG_KZ_WR
 									cout
 										<<", l1=" <<MCU_DATA(blkn, DCT_pos.l1)
 										<<", l2=" <<MCU_DATA(blkn, DCT_pos.l2)
@@ -428,7 +428,7 @@ void JpegStegoEncoder::StegoKochZhaoHide(void *cinfo, JBLOCKROW *MCU_data)
 								//MCU_data[blkn][0][0]=5*(pJSE->mit.byteIndex*8+pJSE->mit.bitIndex);								
 								///*********************/
 								pJSE->mit++;
-#ifdef DEBUG
+#ifdef DEBUG_KZ_WR
 								cout
 									<<", l1=" <<MCU_DATA(blkn, DCT_pos.l1)
 									<<", l2=" <<MCU_DATA(blkn, DCT_pos.l2)
